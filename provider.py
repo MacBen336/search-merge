@@ -62,7 +62,10 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qsl, urlencode, urlsplit
 
-from plugins.web._common import BaseWebSearchProvider, search_ok
+# Oeffentliches ABC statt plugins.web._common (Katalog-Regel 9, 18-10-2026):
+# das private Sammelmodul kann mit jedem Release wandern, der Import steht hier
+# auf Modulebene und wuerde sonst den ganzen Provider mitreissen.
+from agent.web_search_provider import WebSearchProvider
 
 # Registry-Namen. ``ID`` ist der eine Name, den `web.search_backend` treffen
 # soll; ``LEGACY_ID`` bleibt registriert, solange irgendein Profil ihn setzt —
@@ -361,7 +364,7 @@ class _NoRedirect(urllib.request.HTTPRedirectHandler):
         return None
 
 
-class SearchMergeWebSearchProvider(BaseWebSearchProvider):
+class SearchMergeWebSearchProvider(WebSearchProvider):
     """Fragt mehrere Anbieter parallel ab und fuehrt die Treffer zusammen."""
 
     name = ID
@@ -889,7 +892,7 @@ class SearchMergeWebSearchProvider(BaseWebSearchProvider):
             row["position"] = rank
             row.pop("_score", None)  # rein internes Feld, gehoert nicht in die Ausgabe
 
-        result = search_ok(combined)
+        result = {"success": True, "data": {"web": combined}}
         result["data"]["meta"] = {
             "wall_s": round(wall, 2),
             "budget": {
