@@ -1,0 +1,21 @@
+name: search-merge
+version: 0.2.0
+description: >-
+  Search-Merge: query several web search providers in parallel, merge the
+  results (dedupe + rank fusion), apply domain weighting, and keep the LLM view
+  as a labelled addendum. Hits per provider are configurable (cost control for
+  paid sources), slow sources are skipped for the turn instead of waited for.
+  Configuration through its own surface in the web dashboard (dashboard/) and
+  in the desktop app (desktop/); both use the backend namespace
+  /api/plugins/search-merge/.
+  
+  Compatibility: the provider is also registered under the legacy name
+  "search-fanout", and configuration is read from search-merge.json, otherwise
+  from search-fanout.json. A profile whose web.search_backend still points at
+  "search-fanout" keeps searching unchanged.
+author: hermes-plugin-contributors
+license: MIT
+kind: backend
+provides_web_providers:
+  - search-merge
+  - search-fanout

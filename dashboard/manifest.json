@@ -1,0 +1,13 @@
+{
+  "name": "search-merge",
+  "label": "Search",
+  "description": "Configure Search-Merge: pick providers, set hits per provider, adjust weighting.",
+  "icon": "Globe",
+  "version": "0.2.0",
+  "tab": {
+    "path": "/suche",
+    "position": "after:skills"
+  },
+  "entry": "dist/index.js",
+  "api": "plugin_api.py"
+}
